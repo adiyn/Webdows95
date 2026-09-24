@@ -1,28 +1,30 @@
 const dimension = 150;
-const imgStart = Math.floor(Math.random() * 100) + 1;
+const imgStart = Math.floor(Math.random() * 20) + 1;
 const images = [];
 
-// fetching images
 const gameBoard = document.getElementById("game-board");
 const timerDisplay = document.getElementById("timer");
 const resultDisplay = document.getElementById("memory-result");
 const resetBtn = document.getElementById("reset-btn");
 
-// states
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
-let moves = 0;
+let moveCount = 0;
 let matchedCount = 0;
 let seconds = 0;
 let timerInterval = null;
+
 for (let i = 0; i < 8; i++) {
-    images[i] = `https://picsum.photos/id/${imgStart + i}/${dimension}`;
+    const url = `https://picsum.photos/id/${imgStart + i}/${dimension}/${dimension}`;
+    images[i] = url;
+
+    const preload = new Image();
+    preload.src = url;
 }
 
 let cards = [...images, ...images];
 
-// game funcions
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -53,7 +55,7 @@ function startTimer() {
 function checkVictory() {
     if (matchedCount === cards.length) {
         clearInterval(timerInterval);
-        resultDisplay.textContent = `You won in ${moves} moves and ${formatTime(seconds)} !`;
+        resultDisplay.textContent = `You won in ${moveCount} moves and ${formatTime(seconds)} !`;
     }
 }
 
@@ -80,7 +82,11 @@ function handleCardClick(card) {
         return;
     }
 
-    card.innerHTML = `<img src="${card.dataset.value}" alt="Memory Card" style="width:100%;height:100%;">`;
+    if (moveCount === 0 && !firstCard) {
+        startTimer();
+    }
+
+    card.innerHTML = `<img src="${card.dataset.value}" alt="Memory Card" draggable="false" style="width:100%;height:100%;object-fit:cover;pointer-events:none;">`;
 
     if (!firstCard) {
         firstCard = card;
@@ -89,20 +95,14 @@ function handleCardClick(card) {
     
     secondCard = card;
     lockBoard = true;
-    moves++;
+    moveCount++;
     checkMatch();
 }
 
-// ai stuff
-function randomMove() {
-    return Math.floor(Math.random() * 12);
-}
-
-// game init
 function initGame() {
     clearInterval(timerInterval);
     seconds = 0;
-    moves = 0;
+    moveCount = 0;
     matchedCount = 0;
     firstCard = null;
     secondCard = null;
@@ -124,10 +124,10 @@ function initGame() {
         card.addEventListener("click", () => handleCardClick(card));
         gameBoard.appendChild(card);
     });
-
-    startTimer();
 }
 
 if (resetBtn) {
     resetBtn.addEventListener("click", initGame);
 }
+
+initGame();

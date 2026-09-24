@@ -24,7 +24,7 @@ html, body {
     overflow: hidden;
 }
 
-/* --- Win95 Window Container --- */
+/* Window Container */
 .window {
     position: absolute;
     top: 50px;
@@ -60,11 +60,12 @@ html, body {
 
 .title-bar-button {
     background: #c0c0c0;
-    border: 1px solid;
+    border: 2px solid;
+    padding: 1px;
     border-color: #dfdfdf #404040 #404040 #dfdfdf;
-    width: 16px;
-    height: 14px;
-    font-size: 0.5rem;
+    width: 1.5rem;
+    height: fit-content;
+    font-size: 1rem;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -132,7 +133,7 @@ html, body {
     font-size: 1rem;
     cursor: pointer;
     height: 100%;
-    width: 40px;
+    width: 3rem;
     background-image: url("/img/Start\ Button.png");
     background-position: center;
     background-size: 60px;
@@ -218,4 +219,85 @@ html, body {
     background: #808080;
     border-bottom: 1px solid #ffffff;
     margin: 4px 2px;
+}
+/* Desktop Icons */
+.desktop-icon {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: grab;
+    text-align: center;
+    font-size: 14px;
+    user-select: none;
+    z-index: 5;
+    & img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.desktop-icon:active {
+    cursor: grabbing;
+}
+
+.desktop-icon .icon-img {
+    font-size: 36px;
+    margin-bottom: 4px;
+    pointer-events: none;
+}
+
+.desktop-icon span {
+    background: transparent;
+    padding: 2px 4px;
+    pointer-events: none;
+}
+
+.desktop-icon:focus span, 
+.desktop-icon:active span {
+    background: #000080;
+    color: #ffffff;
+    border: 1px dotted #ffffff;
+}
+
+/* File Manager Layout */
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 15px;
+    min-width: 250px;
+    min-height: 150px;
+    background: #ffffff;
+    border: 2px inset #c0c0c0;
+    padding: 10px;
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    
+    & img {
+        width: 32px;
+        height: 32px;
+        pointer-events: none;
+    }
+}
+
+.file-item .icon-img {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.file-item:hover span {
+    background: #000080;
+    color: #ffffff;
 }

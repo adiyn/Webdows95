@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cozy web corner</title>
+    <title>my cozy web corner</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/memory.css">
@@ -14,7 +14,21 @@
 </head>
 <body>
     <main id="desktop">
-        <!-- PROJECT EXPLORER WINDOW -->
+        <!-- BASE DESKTOP ICONS -->
+        <div class="desktop-icon" data-target="window-explorer" style="left: 0px; top: 0px;">
+            <div class="icon-img"><img src="/img/Games.png" alt="Games"></div>
+            <span>Games</span>
+        </div>
+        <div class="desktop-icon" data-target="window-filemanager" style="left: 0px; top: 80px;">
+            <div class="icon-img"><img src="/img/Folder.webp" alt="Files"></div>
+            <span>Files</span>
+        </div>
+        <div class="desktop-icon" style="left: 0px; top: 160px;">
+            <div class="icon-img"><img src="/img/Empty Recycle Bin.webp" alt="Recycle Bin"></div>
+            <span>Recycle Bin</span>
+        </div>
+
+        <!-- GAMES WINDOW -->
         <section class="window" id="window-explorer" aria-labelledby="title-explorer" hidden>
             <div class="title-bar">
                 <span id="title-explorer" class="title-bar-text">GAMES.EXE</span>
@@ -26,6 +40,36 @@
                 <div id="popup-project-list" class="grid">
                     <button type="button" class="btn" data-target="window-memory">MEMORY.EXE</button>
                     <button type="button" class="btn" data-target="window-shifumi">SHIFUMI.EXE</button>
+                </div>
+            </div>
+        </section>
+
+       <!-- FILE MANAGER WINDOW -->
+        <section class="window" id="window-filemanager" aria-labelledby="title-filemanager" hidden>
+            <div class="title-bar">
+                <span id="title-filemanager" class="title-bar-text">FILE_MANAGER.EXE</span>
+                <div class="title-bar-buttons">
+                    <button type="button" class="title-bar-button btn-close" data-close="window-filemanager" aria-label="Close File Manager">x</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="file-grid">
+                    <div class="file-item">
+                        <div class="icon-img"><img src="/img/File.webp" alt="File"></div>
+                        <span>readme.txt</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="icon-img"><img src="/img/Display.png" alt="Display"></div>
+                        <span>config.sys</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="icon-img"><img src="/img/Audio File.webp" alt="Audio"></div>
+                        <span>sound.wav</span>
+                    </div>
+                    <div class="file-item">
+                        <div class="icon-img"><img src="/img/BSOD.jpg" alt="Crash Log"></div>
+                        <span>crash.log</span>
+                    </div>
                 </div>
             </div>
         </section>
