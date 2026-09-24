@@ -134,7 +134,7 @@ html, body {
     cursor: pointer;
     height: 100%;
     width: 3rem;
-    background-image: url("./img/Start\ Button.png");
+    background-image: url("../img/Start Button.png");
     background-position: center;
     background-size: 60px;
     background-repeat: no-repeat;

@@ -61,7 +61,6 @@ function checkVictory() {
 
 function checkMatch() {
     const isMatch = firstCard.dataset.value === secondCard.dataset.value;
-
     if (isMatch) {
         firstCard.classList.add("matched");
         secondCard.classList.add("matched");
@@ -70,29 +69,23 @@ function checkMatch() {
         checkVictory();
     } else {
         setTimeout(() => {
-            firstCard.innerHTML = "";
-            secondCard.innerHTML = "";
+            firstCard.querySelector("img").style.display = "none";
+            secondCard.querySelector("img").style.display = "none";
             resetBoard();
         }, 800);
     }
 }
 
 function handleCardClick(card) {
-    if (lockBoard || card === firstCard || card.classList.contains("matched")) {
-        return;
-    }
+    if (lockBoard || card === firstCard || card.classList.contains("matched")) return;
+    if (moveCount === 0 && !firstCard) startTimer();
 
-    if (moveCount === 0 && !firstCard) {
-        startTimer();
-    }
-
-    card.innerHTML = `<img src="${card.dataset.value}" alt="Memory Card" draggable="false" style="width:100%;height:100%;object-fit:cover;pointer-events:none;">`;
+    card.querySelector("img").style.display = "block";
 
     if (!firstCard) {
         firstCard = card;
         return;
     }
-    
     secondCard = card;
     lockBoard = true;
     moveCount++;
@@ -104,13 +97,10 @@ function initGame() {
     seconds = 0;
     moveCount = 0;
     matchedCount = 0;
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
+    resetBoard();
 
     timerDisplay.textContent = "00:00";
     resultDisplay.textContent = "";
-
     shuffle(cards);
     gameBoard.innerHTML = "";
 
@@ -118,9 +108,16 @@ function initGame() {
         const card = document.createElement("div");
         card.classList.add("card");
         card.dataset.value = imgUrl;
-        card.setAttribute("role", "button");
-        card.setAttribute("tabindex", "0");
 
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        img.style.display = "none";
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+        img.draggable = false;
+
+        card.appendChild(img);
         card.addEventListener("click", () => handleCardClick(card));
         gameBoard.appendChild(card);
     });

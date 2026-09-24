@@ -4,6 +4,8 @@ const GRID_SIZE = 80;
 
 let highestZ = 10;
 let draggedItem = null;
+let startX = 0;
+let startY = 0;
 let offsetX = 0;
 let offsetY = 0;
 let isDragging = false;
@@ -67,45 +69,41 @@ document.querySelectorAll(".window").forEach((win) => {
     win.addEventListener("mousedown", () => bringToFront(win));
 });
 
-// Drag and Drop Grid System
 document.addEventListener('mousedown', (e) => {
     const icon = e.target.closest('.desktop-icon');
     if (icon) {
         draggedItem = icon;
         isDragging = false;
+        startX = e.clientX;
+        startY = e.clientY;
         const rect = icon.getBoundingClientRect();
-        
         offsetX = e.clientX - rect.left;
         offsetY = e.clientY - rect.top;
-        
         bringToFront(icon);
     }
 });
 
 document.addEventListener('mousemove', (e) => {
     if (draggedItem) {
-        isDragging = true;
-        draggedItem.style.left = (e.clientX - offsetX) + 'px';
-        draggedItem.style.top = (e.clientY - offsetY) + 'px';
+        const dx = Math.abs(e.clientX - startX);
+        const dy = Math.abs(e.clientY - startY);
+        if (dx > 5 || dy > 5) {
+            isDragging = true;
+            draggedItem.style.left = (e.clientX - offsetX) + 'px';
+            draggedItem.style.top = (e.clientY - offsetY) + 'px';
+        }
     }
 });
 
-document.addEventListener('mouseup', (e) => {
-    if (draggedItem) {
-        if (isDragging) {
-            const currentX = parseFloat(draggedItem.style.left) || 0;
-            const currentY = parseFloat(draggedItem.style.top) || 0;
-            
-            const snappedX = Math.round(currentX / GRID_SIZE) * GRID_SIZE;
-            const snappedY = Math.round(currentY / GRID_SIZE) * GRID_SIZE;
-            
-            draggedItem.style.left = snappedX + 'px';
-            draggedItem.style.top = snappedY + 'px';
-            
-            setTimeout(() => { isDragging = false; }, 0);
-        }
-        draggedItem = null;
+document.addEventListener('mouseup', () => {
+    if (draggedItem && isDragging) {
+        const currentX = parseFloat(draggedItem.style.left) || 0;
+        const currentY = parseFloat(draggedItem.style.top) || 0;
+        draggedItem.style.left = (Math.round(currentX / GRID_SIZE) * GRID_SIZE) + 'px';
+        draggedItem.style.top = (Math.round(currentY / GRID_SIZE) * GRID_SIZE) + 'px';
+        setTimeout(() => { isDragging = false; }, 50);
     }
+    draggedItem = null;
 });
 
 document.querySelectorAll("[data-target]").forEach((trigger) => {
