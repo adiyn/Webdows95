@@ -220,3 +220,16 @@ document.addEventListener('mousemove', (e) => {
 document.addEventListener('mouseup', () => {
     draggedWindow = null;
 });
+
+if (document.addEventListener) {
+  document.addEventListener('contextmenu', function(e) {
+    console.log("hey there :D");
+    // TODO
+    e.preventDefault();
+  }, false);
+} else {
+  document.attachEvent('oncontextmenu', function() {
+    //TODO
+    window.event.returnValue = false;
+  });
+}

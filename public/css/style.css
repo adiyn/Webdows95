@@ -176,7 +176,7 @@ html, body {
 /* Start Menu Popup */
 .start-menu {
     position: absolute;
-    bottom: 5vh;
+    bottom: 4vh;
     left: 4px;
     display: flex;
     background: #c0c0c0;
