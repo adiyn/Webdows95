@@ -22,6 +22,6 @@
 
 ## AI
 
-- use of AI as tutoring for JS (˶￣▽￣˶) ~~(i hate JS)~~
+- use of AI as tutoring for JS (-_-;) ~~(i hate JS)~~
 
 ## (˶￣▽￣˶)ﾉ bai bai
