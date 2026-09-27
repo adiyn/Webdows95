@@ -24,6 +24,6 @@ It acts as my personal portfolio, playground for web experiments, and an upcomin
 
 ## AI
 
-    use of AI as tutoring for JS (˶￣▽￣˶)
+    use of AI as tutoring for JS (˶￣▽￣˶) ~~(i hate JS)~~
 
 ## (˶￣▽￣˶)ﾉ bai bai
