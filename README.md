@@ -1,4 +1,4 @@
-# welcome to my cozy web corner ! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+# welcome to my cozy web corner ! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
 
 A retro Windows 95 desktop environment built in pure vanilla JS, HTML, and CSS (zero frameworks).
 
