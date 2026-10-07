@@ -14,6 +14,7 @@ let winOffsetX = 0;
 let winOffsetY = 0;
 let oldX = 0;
 let oldY = 0;
+let isFullScreen = false;
 
 /**
  * 
@@ -67,6 +68,40 @@ function toggleStartMenu() {
 function closeStartMenu() {
     startMenu.setAttribute("hidden", "");
     startMenuBtn.setAttribute("aria-expanded", "false");
+}
+
+/**
+ * centers a window
+ * @param {HTMLElement} win 
+ */
+function centerWindow(win) {
+    const desktop = document.getElementById("desktop");
+    if (!desktop || win.classList.contains("maximized")) return;
+
+    const left = Math.max(0, Math.round((desktop.clientWidth - win.offsetWidth) / 2));
+    const top = Math.max(0, Math.round((desktop.clientHeight - win.offsetHeight) / 2));
+
+    win.style.left = `${left}px`;
+    win.style.top = `${top}px`;
+}
+
+/**
+ * opens window and brings it to the front
+ * @param {string} windowId 
+ */
+function openWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+
+    win.removeAttribute("hidden");
+    bringToFront(win);
+
+    if (!win.dataset.positioned) {
+        centerWindow(win);
+        win.dataset.positioned = "true";
+    }
+
+    closeStartMenu();
 }
 
 startMenuBtn.addEventListener("click", (e) => {
@@ -224,12 +259,16 @@ document.addEventListener('mouseup', () => {
 if (document.addEventListener) {
   document.addEventListener('contextmenu', function(e) {
     console.log("hey there :D");
-    // TODO
     e.preventDefault();
   }, false);
-} else {
-  document.attachEvent('oncontextmenu', function() {
-    //TODO
-    window.event.returnValue = false;
-  });
 }
+
+document.addEventListener("dblclick", (e) => {
+    const titleBar = e.target.closest('.title-bar');
+    if (!titleBar || e.target.closest('.title-bar-buttons')) return;
+
+    const win = titleBar.closest('.window');
+    if (win) {
+        win.classList.toggle('maximized');
+    }
+});

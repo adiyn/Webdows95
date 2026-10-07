@@ -1,32 +1,51 @@
+<?php
+declare(strict_types=1);
+
+function asset(string $path): string {
+    $fullPath = __DIR__ . '/' . ltrim($path, '/');
+    $version = file_exists($fullPath) ? (string) filemtime($fullPath) : '1';
+    return htmlspecialchars($path . '?v=' . $version, ENT_QUOTES, 'UTF-8');
+}
+
+$config = require __DIR__ . '/desktop_config.php';
+
+$desktopIcons = $config['desktopIcons'];
+$virtualFiles = $config['virtualFiles'];
+$games        = $config['games'];
+$apps         = $config['apps'] ?? [];
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my cozy web corner</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="./css/style.css?v=2">
-    <link rel="stylesheet" href="./css/memory.css?v=2">
-    <link rel="stylesheet" href="./css/shifumi.css?v=2">
-    <script defer src="./js/script.js?v=2"></script>
-    <script defer src="./js/shifumi.js?v=2"></script>
-    <script defer src="./js/memory.js?v=2"></script>
+    <link rel="icon" type="image/png" href="<?= asset('favicon.png') ?>">
+    <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/memory.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/shifumi.css') ?>">
+
+    <script defer src="<?= asset('js/script.js') ?>"></script>
+
+    <?php foreach ($games as $game): ?>
+        <?php if (!empty($game['script'])): ?>
+            <script defer src="<?= asset($game['script']) ?>"></script>
+        <?php endif; ?>
+    <?php endforeach; ?>
 </head>
 <body>
     <main id="desktop">
-        <!-- BASE DESKTOP ICONS -->
-        <div class="desktop-icon" data-target="window-explorer" style="left: 0px; top: 0px;">
-            <div class="icon-img"><img src="./img/Games.png" alt="Games"></div>
-            <span>Games</span>
-        </div>
-        <div class="desktop-icon" data-target="window-filemanager" style="left: 0px; top: 80px;">
-            <div class="icon-img"><img src="./img/Folder.webp" alt="Files"></div>
-            <span>Files</span>
-        </div>
-        <div class="desktop-icon" style="left: 0px; top: 160px;">
-            <div class="icon-img"><img src="./img/Empty Recycle Bin.webp" alt="Recycle Bin"></div>
-            <span>Recycle Bin</span>
-        </div>
+        <!-- BASE & DYNAMIC DESKTOP ICONS -->
+        <?php foreach ($desktopIcons as $icon): ?>
+            <div class="desktop-icon" 
+                 <?= !empty($icon['target']) ? 'data-target="' . htmlspecialchars($icon['target']) . '"' : '' ?> 
+                 style="left: 0px; top: <?= (int)$icon['top'] ?>px;">
+                <div class="icon-img">
+                    <img src="<?= htmlspecialchars($icon['icon']) ?>" alt="<?= htmlspecialchars($icon['label']) ?>">
+                </div>
+                <span><?= htmlspecialchars($icon['label']) ?></span>
+            </div>
+        <?php endforeach; ?>
 
         <!-- GAMES WINDOW -->
         <section class="window" id="window-explorer" aria-labelledby="title-explorer" hidden>
@@ -38,13 +57,16 @@
             </div>
             <div class="window-body">
                 <div id="popup-project-list" class="grid">
-                    <button type="button" class="btn" data-target="window-memory">MEMORY.EXE</button>
-                    <button type="button" class="btn" data-target="window-shifumi">SHIFUMI.EXE</button>
+                    <?php foreach ($games as $game): ?>
+                        <button type="button" class="btn" data-target="<?= htmlspecialchars($game['target']) ?>">
+                            <?= htmlspecialchars($game['label']) ?>
+                        </button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
 
-       <!-- FILE MANAGER WINDOW -->
+        <!-- FILE MANAGER WINDOW -->
         <section class="window" id="window-filemanager" aria-labelledby="title-filemanager" hidden>
             <div class="title-bar">
                 <span id="title-filemanager" class="title-bar-text">FILE_MANAGER.EXE</span>
@@ -54,6 +76,12 @@
             </div>
             <div class="window-body">
                 <div class="file-grid">
+                    <?php foreach ($virtualFiles as $file): ?>
+                        <div class="file-item">
+                            <img src="<?= htmlspecialchars($file['icon']) ?>" alt="<?= htmlspecialchars($file['name']) ?>">
+                            <span><?= htmlspecialchars($file['name']) ?></span>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -110,28 +138,57 @@
                 </div>
             </div>
         </section>
+
+        <!-- DYNAMIC APPS WINDOWS (desktop-apps/) -->
+        <?php foreach ($apps as $app): ?>
+            <section class="window" id="<?= htmlspecialchars($app['target']) ?>" aria-labelledby="title-<?= htmlspecialchars($app['id']) ?>" hidden>
+                <div class="title-bar">
+                    <span id="title-<?= htmlspecialchars($app['id']) ?>" class="title-bar-text"><?= htmlspecialchars($app['title']) ?></span>
+                    <div class="title-bar-buttons">
+                        <button type="button" class="title-bar-button btn-close" data-close="<?= htmlspecialchars($app['target']) ?>" aria-label="Close">x</button>
+                    </div>
+                </div>
+                <div class="window-body">
+                    <?php if (!empty($app['content'])): ?>
+                        <?php include $app['content']; ?>
+                    <?php else: ?>
+                        <p>Program loaded: <?= htmlspecialchars($app['title']) ?></p>
+                    <?php endif; ?>
+                </div>
+            </section>
+        <?php endforeach; ?>
     </main>
 
     <!-- TASKBAR & START MENU -->
     <footer class="taskbar">
         <button type="button" id="start-menu-btn" class="start-menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="start-menu">
-            <p style="width: 100%;text-align: right;">Start</p>
+            Start
         </button>
 
         <div class="start-menu" id="start-menu" hidden>
-            <div class="start-menu-sidebar">
-            </div>
+            <div class="start-menu-sidebar"></div>
             <ul class="start-menu-apps" id="start-menu-apps">
                 <li>
                     <button type="button" class="start-menu-item" data-target="window-explorer">
                         Games
                     </button>
                 </li>
+                <li>
+                    <button type="button" class="start-menu-item" data-target="window-filemanager">
+                        Files
+                    </button>
+                </li>
+                <?php foreach ($apps as $app): ?>
+                    <li>
+                        <button type="button" class="start-menu-item" data-target="<?= htmlspecialchars($app['target']) ?>">
+                            <?= htmlspecialchars($app['title']) ?>
+                        </button>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="taskbar-items">
-        </div>
+        <div class="taskbar-items"></div>
     </footer>
 </body>
 </html>

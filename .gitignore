@@ -42,5 +42,6 @@ yarn-error.log*
 *.tmp
 *.temp
 
-# Vscode crap
+# crap
 .vscode/
+fiveserver.config.js

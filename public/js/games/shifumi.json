@@ -1,0 +1,6 @@
+{
+    "id": "shifumi",
+    "target": "window-shifumi",
+    "label": "SHIFUMI.EXE",
+    "script": "./js/games/shifumi.js"
+}

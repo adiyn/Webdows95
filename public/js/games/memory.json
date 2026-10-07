@@ -1,0 +1,6 @@
+{
+    "id": "memory",
+    "target": "window-memory",
+    "label": "MEMORY.EXE",
+    "script": "./js/games/memory.js"
+}
