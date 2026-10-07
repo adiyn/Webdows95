@@ -366,3 +366,27 @@ html, body {
     background: var(--win-navy);
     color: var(--win-white);
 }
+
+/* Start Menu Link Items */
+.start-menu-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* BSOD Display Window */
+.window-body-bsod {
+    background: var(--win-black);
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bsod-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

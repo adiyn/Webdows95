@@ -45,3 +45,11 @@ yarn-error.log*
 # crap
 .vscode/
 fiveserver.config.js
+
+# Credentials & Setup scripts
+public/db.php
+set_password.php
+
+# Environment variables
+.env
+.env.*

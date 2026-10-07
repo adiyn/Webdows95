@@ -1,6 +1,15 @@
 <?php
 declare(strict_types=1);
 
+session_start();
+
+if (empty($_SESSION['user'])) {
+    require __DIR__ . '/sddm.php';
+    exit;
+}
+
+$currentUser = htmlspecialchars($_SESSION['user'], ENT_QUOTES, 'UTF-8');
+
 function asset(string $path): string {
     $fullPath = __DIR__ . '/' . ltrim($path, '/');
     $version = file_exists($fullPath) ? (string) filemtime($fullPath) : '1';

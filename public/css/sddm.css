@@ -1,0 +1,83 @@
+body.sddm-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    user-select: none;
+}
+
+.login-dialog {
+    width: 420px;
+    max-width: 90vw;
+    position: relative;
+}
+
+.login-dialog .title-bar-button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.login-body {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+}
+
+.login-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.login-form-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.login-prompt {
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--win-black);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-row label {
+    font-size: 13px;
+}
+
+.win95-input {
+    background: var(--win-white);
+    border: 2px solid;
+    border-color: var(--win-dark-gray) var(--win-white) var(--win-white) var(--win-dark-gray);
+    box-shadow: inset 1px 1px 0 var(--win-black);
+    padding: 3px 5px;
+    font-size: 13px;
+    color: var(--win-black);
+    outline: none;
+}
+
+.win95-input:focus {
+    outline: 1px dotted var(--win-navy);
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 75px;
+}
+
+.login-buttons .btn {
+    min-width: 75px;
+    text-align: center;
+}
