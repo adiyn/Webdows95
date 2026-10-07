@@ -148,7 +148,7 @@ $apps         = $config['apps'] ?? [];
             </div>
         </section>
 
-        <!-- DYNAMIC APPS WINDOWS (desktop-apps/) -->
+        <!-- DYNAMIC APPS WINDOWS -->
         <?php foreach ($apps as $app): ?>
             <section class="window" id="<?= htmlspecialchars($app['target']) ?>" aria-labelledby="title-<?= htmlspecialchars($app['id']) ?>" hidden>
                 <div class="title-bar">
